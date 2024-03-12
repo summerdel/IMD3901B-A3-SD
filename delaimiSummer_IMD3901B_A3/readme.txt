@@ -2,6 +2,8 @@ IMD3901B
 SUMMER DELAIMI
 101220414
 
+GIT LINK: https://github.com/summerdel/IMD3901B-A3-SD/tree/main
+
 Context: ASSIGNMENT INCOMPLETE
 - I will go over what I did and ATTEMPTED to complete.  
 
