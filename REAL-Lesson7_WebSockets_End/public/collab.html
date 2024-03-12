@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Collaborative Aframe</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@4.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="//unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/aframe-drag-controls@fix-performance/index.js"
+      crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
+    <script src="https://cdn.rawgit.com/networked-aframe/networked-aframe/v4.0.3/dist/networked-aframe.min.js"></script>
+  
+  
+    <!--RANDOM WORD GENERAOTR Reference-->
+
+
+<!--https://youtu.be/vl_Ejt5LtFY?si=1Pd9bKCM-xsj8kHj-->
+   
+    <script>
+    function genText(){
+        var words = ['snowman', 'house', 'person'];
+        var chosenWord = words[Math.floor(Math.random() * words.length)];
+        var displayText = "build a: " + chosenWord;
+        document.getElementById('wordDisplay').setAttribute('text', 'value', displayText);
+    }
+    </script>
+
+
+
+    <!--chat help : https://socket.io/get-started/chat-->
+    <style>
+
+        
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+        #chat-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 20%; /* Adjust width as needed */
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.15); 
+            padding: 0.25rem; 
+            box-sizing: border-box; 
+            backdrop-filter: blur(10px); 
+            overflow-y: auto; /* Enable scrolling */
+            z-index: 1; /* Ensure the chat appears on top */
+        }
+        #form { 
+            display: flex; 
+            flex-direction: column; 
+            margin-top: auto; /* Push form to the bottom */
+        }
+        #input { 
+            border: none; 
+            padding: 0.5rem; 
+            border-radius: 1rem; 
+            margin-bottom: 0.5rem; 
+        }
+        #input:focus { outline: none; }
+        #form > button { 
+            background: #333; 
+            border: none; 
+            padding: 0.5rem; 
+            border-radius: 3px; 
+            color: #fff; 
+            cursor: pointer; 
+        }
+
+        #messages { 
+            list-style-type: none; 
+            margin: 0; 
+            padding: 0; 
+        }
+        #messages > li { 
+            padding: 0.5rem 1rem; 
+        }
+        #messages > li:nth-child(odd) { 
+            background: #efefef; 
+        }
+    </style>
+</head>
+<body>
+
+    <a-assets>
+        <audio id="music" src="assets/2016_ Clement Panchout_ Life is full of Joy.wav"preload="auto" crossorigin="anonymous"></audio>
+
+    </a-assets>
+
+    
+    <a-scene>
+        <a-entity sound="src:#music" loop></a-entity>
+        <a-camera id="camera" position="0 2 10" cursor="fuse: false; rayOrigin: mouse;" drag-controls="objects: .draggable" twoway-motion="speed: 15"></a-camera>
+
+    
+      <a-sphere id="sphere1" class="draggable" radius="1" position="-4 1 -5" color="white"></a-sphere>
+      <a-sphere id="sphere2" class="draggable" radius="0.8" position="0 1 -5" color="white"></a-sphere>
+      <a-sphere id="sphere3" class="draggable" radius="0.5" position="-6 1 -5" color="white"></a-sphere>
+      <a-box id ="box" class="draggable" position="-10 1 -3" color="white"></a-box>
+      <a-box id ="box1" class="draggable"width="2" height="2" depth="2" position="-7 1 4"  color="red"></a-box>
+      <a-box id ="box2" class="draggable" width="2" height="2" depth="2" position="-7 1 -1" color="black"></a-box>
+      <a-plane rotation="-45 0 0" scale="1 0.5 0.4" class="draggable" position=" -7 1 7" width="2" height="4" color="red"></a-plane> 
+      <a-plane rotation="45 0 0" scale="1 0.5 0.4" class="draggable" position=" -7 1 11" width="2" height="4" color="red"></a-plane> 
+      <a-box id ="box4" scale="1 1 0.3" class="draggable" width="0.3" height="0.8"  position="-7 1 13" color="brown"></a-box>
+      <a-box id ="box5" scale="1 1 0.3" class="draggable" width="0.3" height="0.8"  position="-6 1 12" color="white"></a-box>
+      <a-box id ="box6" scale="1 1 0.3" class="draggable" width="0.3" height="0.8"  position="-5 1 10" color="white"></a-box>
+      
+      
+      <a-cylinder id="stick1" position="0 0.17 -4" class="draggable" rotation="90 90 0"  height="1.5" radius="0.06" color="brown"></a-cylinder>        <a-cylinder id="stick2" position="-4.9339 0.17445 -4" class="draggable" rotation="90 90 0" height="1.5" radius="0.06" color="brown" material="" geometry=""></a-cylinder>
+      <a-cone color="#FF4500" class="draggable"height="0.5" radius-bottom="0.25" radius-top="0" position="-2 1.25 -3.42996"  geometry="" scale="0.47003 1.33783 0.44812" rotation="90 0 0"></a-cone>      
+      <a-sphere id="sphere4" class="draggable" radius="0.1" position="-1.41993 1 -3.75352" color="black" material="" geometry="" scale="0.40673 0.40673 0.40673"></a-sphere>
+      <a-sphere id="sphere5" class="draggable" radius="0.1" position="-2.41993 1 -3.75352" color="black" material="" geometry="" scale="0.40673 0.40673 0.40673"></a-sphere>
+
+      <a-sphere id="head" class="draggable" radius="0.4" position="8 1 -5" color="yellow"></a-sphere>
+      <a-box position="8 1 -3" rotation="0 90 90" class="draggable" width="2" height="1" depth="0.5" color="blue"></a-box>
+      <a-cylinder id="arm1" position="8 0.2 -1" class="draggable" rotation="90 0 0"  height="1.5" radius="0.06" color="brown"></a-cylinder>      
+    <a-cylinder id="stick2" position="8 0.2 0" class="draggable" rotation="90 0 0" height="1.5" radius="0.06" color="brown" material="" geometry=""></a-cylinder>
+    <a-cylinder id="leg1" position="8 0.2 4" class="draggable" rotation="0 0 0"  height="1.2" radius="0.1" color="red"></a-cylinder>      
+    <a-cylinder id="leg2" position="8 0.2 3" class="draggable" rotation="0 0 0"  height="1.2" radius="0.1" color="red"></a-cylinder>      
+
+
+
+        <!-- Environment -->
+        <a-plane rotation="-90 0 0" width="40" height="40" color="#7BC8A4"></a-plane> <!-- Plane on the floor -->
+
+        <!-- Chat container -->
+    <div id="chat-container">
+        <ul id="messages"></ul>
+        <form id="form" action="">
+            <input id="input" autocomplete="off" />
+            <button>Send</button>
+        </form>
+    </div>
+
+
+        <!--CHAT SCRIPT-->
+        
+
+         <!-- red button -->
+         <a-entity id="red_button" position="2 0.6 -1" onclick="genText();">
+            <a-entity class="button interactive" position="0 0.6 0" geometry="primitive:cylinder; radius:0.15; height:0.2;" material="color:rgb(255, 100, 100)"
+                        animation__mouseenter="property:material.color; type:color; to:rgb(255, 0, 0); startEvents:mouseenter; dur:200"
+                        animation__mouseleave="property:material.color; type:color; to:rgb(255, 100, 100); startEvents:mouseleave; dur:200"
+                        animation__click="property:position.y; from:0.55; to:0.6; startEvents:click; dur:300" shadow></a-entity>
+            <a-entity position="0 0.3 0" geometry="primitive:box; width:0.5; depth:0.5; height:0.6;" material="color:rgb(255, 255, 255)" shadow></a-entity>
+        </a-entity>
+
+
+        <!--WORD DISPLAY-->
+        <a-entity id="wordDisplay" position="2.96269 2.67115 -2.39401" text="value: build a: ; align: center; width: 5; color: black"></a-entity>
+
+    </a-scene>
+
+ 
+ <!--  JavaScript code -->
+
+  <script src="/socket.io/socket.io.js"></script>
+ <script>
+
+    // Client-side chat 
+    var socket = io();
+        var messagesContainer = document.getElementById('messages');
+        var form = document.getElementById('form');
+        var input = document.getElementById('input');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value.trim() !== '') {
+                socket.emit('chat message', input.value);
+                input.value = '';
+            }
+        });
+
+        // Update chat messages in the chat container
+        socket.on('chat message', function(msg) {
+            var messageDiv = document.createElement('div');
+            messageDiv.textContent = msg;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Auto-scroll to bottom
+        });
+ </script> 
+
+
+<!--Differenet version of chat -->
+
+ <!-- <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let counter = 0;
+
+    const socket = io({
+      auth: {
+        serverOffset: 0
+      },
+      ackTimeout: 10000,
+      retries: 3,
+    });
+
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (input.value) {
+        const clientOffset = `${socket.id}-${counter++}`;
+        socket.emit('chat message', input.value, clientOffset);
+        input.value = '';
+      }
+    });
+
+    socket.on('chat message', (msg, serverOffset) => {
+      const item = document.createElement('li');
+      item.textContent = msg;
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+      socket.auth.serverOffset = serverOffset;
+    });
+  </script>
+ -->
+
+
+
+
+</body>
+</html>

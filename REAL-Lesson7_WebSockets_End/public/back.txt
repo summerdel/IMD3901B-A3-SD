@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <title>Rock Paper Scissors</title>
+</head>
+
+<body>
+    <div class="start-screen">
+        <h1>Rock Paper Scissors</h1>
+
+        <div class="gameplay-choices" id="gameplay-choices">
+            <button id="open-create-room-box">Create Room</button>
+            <button id="open-join-room-box">Join Room</button>
+        </div>
+
+        <div class="create-room-box" id="create-room-box">
+            <input type="text" id="room-id"><button id="create-room-btn">Create</button>
+
+            <button id="cancel-create-action" class="cancel-action">Cancel</button>
+        </div>
+
+        <div class="join-room-box" id="join-room-box">
+            <div class="join-with-id">
+                <input type="text" id="join-room-input"><button id="join-room-btn">Join</button>
+
+                <button id="cancel-join-action" class="cancel-action">Cancel</button>
+            </div>
+
+            <button class="join-random" id="join-random">Join Random</button>
+        </div>
+
+        <div class="error-message" id="error-message">
+        </div>
+    </div>
+
+    <div class="gameplay-screen">
+        <div class="wait-message" id="wait-message">
+            <p>Waiting for another player to join...</p>
+        </div>
+
+        <div class="connected-players">
+            <div class="player">
+                <span class="dot" id="player-1"></span> <span id="player-1-tag"></span>
+            </div>
+
+            <div class="player">
+                <span class="dot" id="player-2"></span> <span id="player-2-tag"></span>
+            </div>
+        </div>
+
+        <div class="choices">
+            <div class="choice" id="rock">
+                <i class="fas fa-hand-rock"></i>
+            </div>
+
+            <div class="choice" id="paper">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+
+            <div class="choice" id="scissor">
+                <i class="fas fa-hand-scissors"></i>
+            </div>
+        </div>
+
+        <div class="score">
+            <span>You: <span id="my-score">0</span></span>
+            <span>Enemy: <span id="enemy-score">0</span></span>
+        </div>
+
+        <div class="message-after-choice-selection" id="win-message">
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/index.js "></script>
+</body>
+
+</html>
+
+
+<BACKEND//
+// const express = require('express');
+// const app = express();
+// const http = require('http');
+// const server = require('http').createServer(app);
+// const io = require('socket.io')(server);
+
+// const LISTEN_PORT = 8080;
+
+// app.use(express.static(__dirname + '/public'));
+
+// app.get('/', function (req, res) {
+//     res.sendFile(__dirname + '/public/start.html');
+// });
+
+// app.get('/2D', function (req, res) {
+//     res.sendFile(__dirname + '/public/collab.html');
+// });
+
+// app.get('/3D', function (req, res) {
+//     res.sendFile(__dirname + '/public/index.html');
+// });
+
+
+
+// // Set initial scores
+// let scores = {
+//     player1: 0,
+//     player2: 0
+// };
+
+// // Listen for connection
+// io.on('connection', (socket) => {
+//     console.log('A user connected');
+
+//     // // Listen for button clicks
+//     // socket.on('click', (data) => {
+//     //     // Increment score based on player
+//     //     if (data.player === 'player1') {
+//     //         scores.player1++;
+//     //     } else if (data.player === 'player2') {
+//     //         scores.player2++;
+//     //     }
+
+//     //     // Emit updated scores to all clients
+//     //     io.emit('updateScore', scores);
+//     // });
+
+//     // Listen for disconnection
+//     socket.on('disconnect', () => {
+//         console.log('User disconnected');
+//     });
+
+//     socket.on('chat_message', (data) => {
+//         console.log('Message received:', data.message);
+//         // Broadcast the received message to all connected clients
+//         io.emit('chat_message', {
+//             sender: socket.id,
+//             message: data.message
+//         });
+//     });
+//    //  infinite loop with a millisecond delay (but only want one loop running ...)
+//    // a way to update all clients simulatenously every frame i.e. updating position, rotation ...
+//     // if (setIntervalFunc == null) {
+//     //     console.log("setting interval func");
+//     //     setIntervalFunc = setInterval( () => {
+//     //         //if we want to do loops 
+//     //     }, 50);
+//     // }
+// });
+
+// server.listen(LISTEN_PORT, () => {
+//     console.log("Listening on port: " + LISTEN_PORT);
+// });
